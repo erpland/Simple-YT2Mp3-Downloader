@@ -64,6 +64,8 @@ const Home: React.FC<Props> = ({
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
+    setAlert(undefined);
+    setLink("");
     if (!url.trim()) {
       return setAlert({
         severity: "error",
