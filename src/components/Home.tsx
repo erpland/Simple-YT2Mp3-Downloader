@@ -34,7 +34,6 @@ const Home: React.FC<Props> = ({
   const linkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    console.count();
     if (link) {
       setAlert({
         severity: "success",
@@ -76,7 +75,6 @@ const Home: React.FC<Props> = ({
     setLink("");
 
     const id = getVideoId();
-    console.log(id);
     if (!id) {
       return setAlert({
         severity: "error",
