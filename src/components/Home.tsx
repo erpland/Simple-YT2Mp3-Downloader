@@ -17,6 +17,7 @@ import {
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import DownloadIcon from "@mui/icons-material/Download";
 import { AlertType } from "../types/types";
+
 type Props = {
   isLoading: boolean;
   setIsLoading: React.Dispatch<SetStateAction<boolean>>;
@@ -29,11 +30,11 @@ const Home: React.FC<Props> = ({
   setAlert,
 }) => {
   const [url, setUrl] = useState("");
-  const server = "http://localhost:4000";
   const [link, setLink] = useState("");
   const linkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
+    console.count();
     if (link) {
       setAlert({
         severity: "success",
@@ -62,43 +63,96 @@ const Home: React.FC<Props> = ({
     }
   }, [link]);
 
+  const getVideoId = () => {
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : undefined;
+  };
+
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
     setAlert(undefined);
     setLink("");
-    if (!url.trim()) {
+
+    const id = getVideoId();
+    console.log(id);
+    if (!id) {
       return setAlert({
         severity: "error",
         isOpen: true,
-        massage: "Must Provide Url",
+        massage: (
+          <span>
+            Invalid or empty URL. <br />
+            Copy the full youtube url and try again.
+          </span>
+        ),
       });
     }
+
     setIsLoading(true);
-    await downloadMp3();
-    setIsLoading(false);
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": import.meta.env.VITE_API_KEY,
+        "X-RapidAPI-Host": import.meta.env.VITE_API_HOST,
+      },
+    };
+
+    try {
+      const test = await fetch(
+        "https://youtube-mp36.p.rapidapi.com/dl?id=" + id,
+        options as RequestInit
+      );
+      setLink((await test.json()).link);
+    } catch (err) {
+      console.log(err);
+      setAlert({
+        severity: "error",
+        isOpen: true,
+        massage: "Unable to convert video to mp3",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const downloadMp3 = async () => {
-    try {
-      const res = await fetch(`${server}/download?url=${url.trim()}`);
-      if (res.status == 200) {
-        return setLink(res.url);
-      } else {
-        const msg = await res.json();
-        return setAlert({
-          severity: "error",
-          isOpen: true,
-          massage: msg.error,
-        });
-      }
-    } catch (err) {
-      return setAlert({
-        severity: "error",
-        isOpen: true,
-        massage: "Error Fetching Check You Internet Connection",
-      });
-    }
-  };
+  // const downloadMp3 = async () => {
+  //   try {
+  //     const test = await fetch(
+  //       "https://youtube-mp36.p.rapidapi.com/dl?id=" + videoId,
+  //       options
+  //     );
+  //     return setLink((await test.json()).link);
+  //   } catch (err) {
+  //     console.log(err);
+  //     return setAlert({
+  //       severity: "error",
+  //       isOpen: true,
+  //       massage: "Unable to convert video to mp3",
+  //     });
+  //   }
+
+  //   try {
+  //     const res = await fetch(`${server}/api?url=${url.trim()}`);
+  //     if (res.status == 200) {
+  //       return setLink(res.url);
+  //     } else {
+  //       const msg = await res.json();
+  //       return setAlert({
+  //         severity: "error",
+  //         isOpen: true,
+  //         massage: msg.error,
+  //       });
+  //     }
+  //   } catch (err) {
+  //     return setAlert({
+  //       severity: "error",
+  //       isOpen: true,
+  //       massage: "Error Fetching Check You Internet Connection",
+  //     });
+  //   }
+  // };
 
   const handlePaste = async () => {
     setAlert(undefined);

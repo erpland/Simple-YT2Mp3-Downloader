@@ -6,12 +6,7 @@ import "@fontsource/roboto/700.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Home from "./components/Home";
-import {
-  Alert,
-  AlertTitle,
-  Container,
-  Link,
-} from "@mui/material";
+import { Alert, AlertTitle, Container, Link } from "@mui/material";
 import Loader from "./components/Loader";
 import { AlertType } from "./types/types";
 
@@ -47,7 +42,7 @@ function App() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "100vh",
+          height: "90vh",
         }}
       >
         <Loader isLoading={isLoading} />
@@ -68,18 +63,20 @@ function App() {
             {alert.massage}
           </Alert>
         )}
-        <Link
-          target={"_blank"}
-          href="https://github.com/erpland"
-          textAlign={"center"}
-          variant="caption"
-          flexGrow={1}
-          padding={2}
-          underline={"hover"}
-        >
-          by Ori Winboim
-        </Link>
       </Container>
+      <Link
+        position={"absolute"}
+        bottom={0}
+        width="100%"
+        target={"_blank"}
+        href="https://github.com/erpland"
+        textAlign={"center"}
+        variant="caption"
+        padding={3}
+        underline={"hover"}
+      >
+        by Ori Winboim
+      </Link>
     </ThemeProvider>
   );
 }
