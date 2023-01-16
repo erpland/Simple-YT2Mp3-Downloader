@@ -114,43 +114,32 @@ const Home: React.FC<Props> = ({
       setIsLoading(false);
     }
   };
-
-  // const downloadMp3 = async () => {
-  //   try {
-  //     const test = await fetch(
-  //       "https://youtube-mp36.p.rapidapi.com/dl?id=" + videoId,
-  //       options
-  //     );
-  //     return setLink((await test.json()).link);
-  //   } catch (err) {
-  //     console.log(err);
-  //     return setAlert({
-  //       severity: "error",
-  //       isOpen: true,
-  //       massage: "Unable to convert video to mp3",
-  //     });
-  //   }
-
-  //   try {
-  //     const res = await fetch(`${server}/api?url=${url.trim()}`);
-  //     if (res.status == 200) {
-  //       return setLink(res.url);
-  //     } else {
-  //       const msg = await res.json();
-  //       return setAlert({
-  //         severity: "error",
-  //         isOpen: true,
-  //         massage: msg.error,
-  //       });
-  //     }
-  //   } catch (err) {
-  //     return setAlert({
-  //       severity: "error",
-  //       isOpen: true,
-  //       massage: "Error Fetching Check You Internet Connection",
-  //     });
-  //   }
-  // };
+  /* 
+    * working function with own express server 
+    * not used because free hosting limits requests
+ 
+  const downloadMp3 = async () => {
+    try {
+      const res = await fetch(`${server}/download?url=${url.trim()}`);
+      if (res.status == 200) {
+        return setLink(res.url);
+      } else {
+        const msg = await res.json();
+        return setAlert({
+          severity: "error",
+          isOpen: true,
+          massage: msg.error,
+        });
+      }
+    } catch (err) {
+      return setAlert({
+        severity: "error",
+        isOpen: true,
+        massage: "Error Fetching Check You Internet Connection",
+      });
+    }
+  };
+  */
 
   const handlePaste = async () => {
     setAlert(undefined);
