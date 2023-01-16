@@ -40,7 +40,7 @@ const Home: React.FC<Props> = ({
         isOpen: true,
         massage: (
           <span>
-            Download Should Start Automaticly.
+            Download Should Start Automatically.
             <br />
             If It Didn't Click On The Red Icon.
           </span>
