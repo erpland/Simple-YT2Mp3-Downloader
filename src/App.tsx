@@ -10,7 +10,7 @@ import {
   Alert,
   AlertTitle,
   Container,
-  Typography,
+  Link,
 } from "@mui/material";
 import Loader from "./components/Loader";
 import { AlertType } from "./types/types";
@@ -57,21 +57,28 @@ function App() {
           setAlert={(val) => setAlert(val)}
         />
         {alert && alert?.isOpen && (
-          <Alert severity={alert.severity} action={alert.action}>
+          <Alert
+            severity={alert.severity}
+            action={alert.action}
+            sx={{ position: "fixed", left: 0, width: "100%" }}
+          >
             <AlertTitle>
               {alert.severity === "error" ? "Error" : "Success"}
             </AlertTitle>
             {alert.massage}
           </Alert>
         )}
-        <Typography
+        <Link
+          target={"_blank"}
+          href="https://github.com/erpland"
           textAlign={"center"}
           variant="caption"
           flexGrow={1}
           padding={2}
+          underline={"hover"}
         >
           by Ori Winboim
-        </Typography>
+        </Link>
       </Container>
     </ThemeProvider>
   );

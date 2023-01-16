@@ -38,8 +38,13 @@ const Home: React.FC<Props> = ({
       setAlert({
         severity: "success",
         isOpen: true,
-        massage:
-          "Download Should Start Automaticly If Not Click The Red Icon",
+        massage: (
+          <span>
+            Download Should Start Automaticly.
+            <br />
+            If It Didn't Click On The Red Icon.
+          </span>
+        ),
         action: (
           <IconButton
             sx={{ alignSelf: "center" }}
@@ -53,7 +58,7 @@ const Home: React.FC<Props> = ({
           </IconButton>
         ),
       });
-      // linkRef.current?.click();
+      linkRef.current?.click();
     }
   }, [link]);
 
@@ -98,6 +103,7 @@ const Home: React.FC<Props> = ({
     const text = await navigator.clipboard.readText();
     setUrl(text);
   };
+
   return (
     <Box
       display={"flex"}
@@ -145,7 +151,11 @@ const Home: React.FC<Props> = ({
                 variant="outlined"
                 fullWidth
                 color="error"
-                onClick={() => setLink("")}
+                onClick={() => {
+                  setUrl("");
+                  setLink("");
+                  setAlert(undefined);
+                }}
                 disabled={isLoading}
               >
                 Reset

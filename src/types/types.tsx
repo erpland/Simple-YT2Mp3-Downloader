@@ -1,6 +1,6 @@
 export type AlertType = {
   isOpen: boolean;
   severity: "error" | "success";
-  massage: string;
+  massage: JSX.Element | string;
   action?: any;
 };
